@@ -9,11 +9,36 @@ Alphabet is a comma separated list of letters to exclude from the alphabet
 The dictionary lookup works for 5 letter words only. Longer words are possible, but will be exponentially slower
 
 Example:
-	./cheating_at_wordle.py aec ~a:2 ~e:2 c:1 r,t,y,u,i,o,s,d,k,l,n,m,z,q,x,w,f,v,g,b,j
+	./cheating_at_wordle.py -ramo a:1 r:2 ~m:3 ~o:4 ~o:5 e,t,y,u,i,s,d,k,l,c,n,w
 
 	The letters A, E and C are known, 2 letters are not
-	Position 1 is a C
-	Position 2 is not an A or an E
-	The word does not contain any of r, t, y, u, i, o, s, d, k, l, n, m, z, q, x, w, f, v, g, b, or j
+	Position 1 is an A
+	Position 2 is an R
+	Position 3 is not an M
+	Positions 4 and 5 are not an O
+	The word does not contain any of E, T, Y, U, I, S, D, K, L, C, N, or W
 
-	In this case, the most likely answer is CHEAP
+	The output will be:
+
+	======================RATIO MENDS LUCKY======================
+	Finding all possible permutations of [R A M O]
+	Alphabet: A B F G H J M O P Q R V X Z
+	Rules: [1: A] [2: R] [3: ~M] [4: ~O] [5: ~O]
+	=============================================================
+
+	AROM- ARO-M
+	-----------------------------
+	Found 2 possible permutations.
+
+	AROMA AROMB AROMF AROMG AROMH
+	AROMJ AROMM AROMO AROMP AROMQ
+	AROMR AROMV AROMX AROMZ AROAM
+	AROBM AROFM AROGM AROHM AROJM
+	AROMM AROOM AROPM AROQM ARORM
+	AROVM AROXM AROZM
+	-----------------------------
+	Expanded to 28 possible permutations.
+
+	AROMA
+	-----------------------------
+	Filtered to 1 possible dictionary words.

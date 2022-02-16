@@ -901,7 +901,7 @@ def print_usage(self):
 	print('  Rules are composed of [~][letter]:[position]. The optional tilde indicates a not. for example, a:5 means an \'A\' in position 5. ~a:5 means no \'A\' in position 5')
 	print('  Alphabet is a comma separated list of letters to exclude from the alphabet')
 	print('  Example:')
-	print('    ./cheating_at_wordle.py aec ~a:2 ~e:2 c:1 r,t,y,u,i,o,s,d,k,l,n,m,z,q,x,w,f,v,g,b,j')
+	print('    ./cheating_at_wordle.py -ramo a:1 r:2 ~m:3 ~o:4 ~o:5 e,t,y,u,i,s,d,k,l,c,n,w')
 	sys.exit(0)
 
 if __name__ == '__main__':
