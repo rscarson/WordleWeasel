@@ -1,3 +1,5 @@
+A Wordle solver of dubious quality and purpose. Great if you like sucking all the fun out of solving puzzles
+
 Usage: ./cheating_at_wordle.py [known letters] [rules] [alphabet]
 
 First argument is the list of letters you already know
