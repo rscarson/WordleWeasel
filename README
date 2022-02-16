@@ -6,6 +6,8 @@ First argument is the list of letters you already know
 Rules are composed of [~][letter]:[position]. The optional tilde indicates a not. for example, a:5 means an 'A' in position 5. ~a:5 means no 'A' in position 5
 Alphabet is a comma separated list of letters to exclude from the alphabet
 
+The dictionary lookup works for 5 letter words only. Longer words are possible, but will be exponentially slower
+
 Example:
 	./cheating_at_wordle.py aec ~a:2 ~e:2 c:1 r,t,y,u,i,o,s,d,k,l,n,m,z,q,x,w,f,v,g,b,j
 
