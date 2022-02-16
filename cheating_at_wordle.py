@@ -801,7 +801,7 @@ class WordleWeasel:
 		'ZIMME', 'ZIMMI', 'ZIMMY', 'ZINCY', 'ZINCO', 'ZINCS', 'ZINEB', 'ZINGY', 'ZINGS', 'ZINKE', 'ZINKY', 'ZIPPY', 'ZIRAI', 'ZIRAK', 'ZIRAM', 'ZITIS', 'ZIZEL', 'ZIZIA', 'ZIZIT', 'ZLOTE'
 		'ZLOTY', 'ZMUDZ', 'ZOAEA', 'ZOCCO', 'ZOEAE', 'ZOEAL', 'ZOEAS', 'ZOGAN', 'ZOHAK', 'ZOISM', 'ZOIST', 'ZOKOR', 'ZOLLE', 'ZOMBI', 'ZONAL', 'ZONAR', 'ZONDA', 'ZONED', 'ZONER', 'ZONES'
 		'ZONIC', 'ZONTA', 'ZOOID', 'ZOOKS', 'ZOOMS', 'ZOONA', 'ZOONS', 'ZOOTY', 'ZOQUE', 'ZORIL', 'ZORIS', 'ZORRO', 'ZOSMA', 'ZOWIE', 'ZUCCO', 'ZUDDA', 'ZULUS', 'ZUNIS',
-		
+
 		"EKANS", "ARBOK", "ZUBAT", "GLOOM", "PARAS", "GOLEM", "DODUO", "HYPNO", "DITTO", "EEVEE", "PICHU", "AIPOM", "YANMA", "UNOWN", "MAGBY", "ENTEI", "LUGIA", "LOTAD", "RALTS", "MINUN", 
 		"NUMEL", "ABSOL", "BAGON", "SHINX", "LUXIO", "BUDEW", "BURMY", "GIBLE", "RIOLU", "ROTOM", "AZELF", "SNIVY", "TEPIG", "MUNNA", "THROH", "ZORUA", "KLINK", "KLANG", "DEINO", "INKAY", 
 		"GOOMY", "HOOPA", "TOXEL", "KUBFU"
@@ -821,7 +821,7 @@ class WordleWeasel:
 	def add_rule(self, letter, pos, reverse):
 		if not pos in self.rules.keys():
 			self.rules[pos] = []
-		self.rules[pos].append(letter)
+		self.rules[pos].append('{0}{1}'.format('~' if reverse else '', letter))
 		self.permutations = [p for p in self.permutations if (rev and p[pos-1] != letter) or ((not rev) and p[pos-1] == letter)]
 
 	''' Reduce the available letters for the solutions '''
@@ -844,6 +844,14 @@ class WordleWeasel:
 			while '-' in p:
 				n = p.index('-')
 				for inc in self.include:
+					if n+1 in self.rules.keys():
+						for rule in self.rules[n+1]:
+							if rule == '~'+inc:
+								# Make sure this letter is allowed here
+								continue
+							elif rule[0] != '~' and rule != inc:
+								# Make sure this position isn't reserved
+								continue
 					p = p[:n] + inc + p[n+1:]
 					permutations.append(p)
 			del permutations[0]
@@ -893,7 +901,7 @@ def print_usage(self):
 	print('  Rules are composed of [~][letter]:[position]. The optional tilde indicates a not. for example, a:5 means an \'A\' in position 5. ~a:5 means no \'A\' in position 5')
 	print('  Alphabet is a comma separated list of letters to exclude from the alphabet')
 	print('  Example:')
-	print('    ./cheating_at_wordle.py aec ~a:2 ~e:2 c:3 r,t,y,u,i,o,s,d,k,l,n,m')
+	print('    ./cheating_at_wordle.py aec ~a:2 ~e:2 c:1 r,t,y,u,i,o,s,d,k,l,n,m,z,q,x,w,f,v,g,b,j')
 	sys.exit(0)
 
 if __name__ == '__main__':
@@ -914,6 +922,7 @@ if __name__ == '__main__':
 				letter, pos = _arg
 				pos = int(pos)
 				rev = letter[0] == '~'
+				letter = letter[1] if rev else letter
 				solver.add_rule(letter, pos, rev)
 			else:
 				# Reduce alphabet
